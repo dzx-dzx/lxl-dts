@@ -280,4 +280,6 @@ export interface mc {
 
     getBDSVersion(): string
     setMotd(motd: string): boolean
+
+    listen(event: string, callback: (...args: any[]) => boolean | void): boolean
 }
