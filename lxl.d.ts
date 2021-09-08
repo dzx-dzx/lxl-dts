@@ -129,6 +129,12 @@ export interface Player {
     reduceScore(name: string, value: Integer): boolean
     deleteScore(name: string): boolean
 
+    sendModalForm(title: string, content: string, button1: string, callback: (player: Player, result: 0 | 1 | undefined) => void): Integer | undefined
+    sendSimpleForm(title: string, content: string, buttons: string[], images: string[], callback: (player: Player, id: Integer | undefined) => void): Integer | undefined
+    sendCustomForm(json: string, callback: (player: Player, data: [undefined, ...any[]]) => void): Integer | undefined
+
+    sendForm(fm: SimpleForm, callback: (player: Player, id: Integer | undefined) => void): Integer | null
+    sendForm(fm: CustomForm, callback: (player: Player, data: any[] | undefined) => void): Integer | null
 }
 export interface Block {
     readonly name: string
@@ -229,8 +235,65 @@ export interface Objective {
     deleteScore(target: Player | string): boolean
     setDisplay(slot: "sidebar" | "belowname" | "list", sortOrder?: 0 | 1): boolean
 }
-export interface NbtCompound {
-
+export interface nbt {
+    getType(): any
+    toString(space?: Integer): string
+    toSNBT(): string
+    toBinaryNBT(): ArrayBuffer
+    destroy(): boolean
+}
+export interface NbtCompound extends nbt {
+    getKeys(): string[]
+    getTypeOf(key: string): any
+    setTag(key: string, tag: NbtCompound | NbtValue | NbtList): boolean
+    getTag(key: string): NbtCompound | NbtValue | NbtList
+    removeTag(key: string): NbtCompound
+    setEnd(key: string): NbtList
+    setByte(key: string, data: any): NbtList
+    setShort(key: string, data: any): NbtList
+    setInt(key: string, data: any): NbtList
+    setLong(key: string, data: any): NbtList
+    setFloat(key: string, data: any): NbtList
+    setDouble(key: string, data: any): NbtList
+    setString(key: string, data: any): NbtList
+    getData(key: string): NbtList | NbtCompound | undefined
+    toObject(): any
+}
+export interface NbtValue extends nbt {
+    set(data: any): boolean
+    get(): any
+}
+export interface NbtList extends nbt {
+    getSize(): Integer
+    getTypeOf(index: Integer): any
+    setTag(index: Integer, tag: NbtCompound | NbtValue | NbtList)
+    getTag(index: Integer): NbtCompound | NbtValue | NbtList
+    addTag(tag: NbtCompound | NbtValue | NbtList): NbtList
+    removeTag(index: Integer): NbtList
+    setEnd(index: Integer): NbtList
+    setByte(index: Integer, data: any): NbtList
+    setShort(index: Integer, data: any): NbtList
+    setInt(index: Integer, data: any): NbtList
+    setLong(index: Integer, data: any): NbtList
+    setFloat(index: Integer, data: any): NbtList
+    setDouble(index: Integer, data: any): NbtList
+    setString(index: Integer, data: any): NbtList
+    getData(index: Integer): NbtList | NbtCompound | undefined
+    toArray(): any[]
+}
+export interface SimpleForm {
+    setTitle(title: string): SimpleForm
+    setContent(content: string): SimpleForm
+    addButton(text: string, image?: string): SimpleForm
+}
+export interface CustomForm {
+    setTitle(title: string): CustomForm
+    addLabel(text: string): CustomForm
+    addInput(title: string, placeholder?: string, _default?: string): CustomForm
+    addSwitch(title: string, _default?: boolean): CustomForm
+    addDropdown(title: string, items: string[], _default?: Integer): CustomForm
+    addSlider(title: string, min: Integer, max: Integer, step?: Integer, _default?: Integer): CustomForm
+    addStepSlider(title: string, items: string[], _default: Integer): CustomForm
 }
 export function log(...args: any[]): void
 export function colorLog(color: string, ...args: any[]): void
@@ -282,4 +345,12 @@ export interface mc {
     setMotd(motd: string): boolean
 
     listen(event: string, callback: (...args: any[]) => boolean | void): boolean
+
+    newSimpleForm(): SimpleForm
+    newCustomForm(): CustomForm
+}
+export interface NBT {
+    createTag(type: any, data?: any): NbtValue | NbtList | NbtCompound | undefined
+    parseSNBT(snbt: string): NbtCompound | undefined
+    parseBinaryNBT(nbt: ArrayBuffer): NbtCompound | undefined
 }
