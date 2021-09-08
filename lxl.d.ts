@@ -278,7 +278,7 @@ export interface NbtValue extends nbt {
 export interface NbtList extends nbt {
     getSize(): Integer
     getTypeOf(index: Integer): any
-    setTag(index: Integer, tag: NbtCompound | NbtValue | NbtList)
+    setTag(index: Integer, tag: NbtCompound | NbtValue | NbtList): boolean
     getTag(index: Integer): NbtCompound | NbtValue | NbtList
     addTag(tag: NbtCompound | NbtValue | NbtList): NbtList
     removeTag(index: Integer): NbtList
@@ -336,7 +336,7 @@ export interface DB {
     listKey(): string[]
     close(): boolean
 }
-export interface file {
+export interface File {
     readonly path: string
     readonly absolutePath: string
     readonly size: Integer
@@ -360,7 +360,7 @@ export interface file {
     errorCode(): Integer
     clear(): boolean
 
-    createDir(dir): boolean
+    createDir(dir: string): boolean
     mkdir(dir: string): boolean
     delete(path: string): boolean
     exists(path: string): boolean
@@ -530,5 +530,5 @@ export interface system {
         s: Integer
         ms: Integer
     }
-    randomGuid():string
+    randomGuid(): string
 }
