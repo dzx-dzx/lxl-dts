@@ -52,6 +52,14 @@ export enum Format {
     Random = "§k",
     Clear = "§r"
 }
+export enum LogLevel {
+    Slient,
+    Fatal,
+    Error,
+    Warn,
+    Info,
+    Debug
+}
 export interface IntPos {
     x: Integer,
     y: Integer,
@@ -135,6 +143,10 @@ export interface Player {
 
     sendForm(fm: SimpleForm, callback: (player: Player, id: Integer | undefined) => void): Integer | null
     sendForm(fm: CustomForm, callback: (player: Player, data: any[] | undefined) => void): Integer | null
+
+    setExtraData(name: string, data: any): boolean
+    getExtraData(name: string): any
+    delExtraData(name: string): any
 }
 export interface Block {
     readonly name: string
@@ -295,6 +307,83 @@ export interface CustomForm {
     addSlider(title: string, min: Integer, max: Integer, step?: Integer, _default?: Integer): CustomForm
     addStepSlider(title: string, items: string[], _default: Integer): CustomForm
 }
+export interface Conf {
+    reload(): boolean
+    close(): boolean
+    getPath(): string
+    read(): string
+    write(content: string): boolean
+}
+export interface JSONConf extends Conf {
+    init(name: string, _default: any): any
+    set(name: string, data: any): boolean
+    get(name: string, _default?: any): any
+    delete(name: string): boolean
+}
+export interface INIConf extends Conf {
+    init(section: string, name: string, _default: Integer | Float | string | boolean): any
+    set(section: string, name: string, data: Integer | Float | string | boolean): boolean
+    getStr(section: string, name: string, _default?: string): string
+    getInt(section: string, name: string, _default?: Integer): Integer
+    getFloat(section: string, name: string, _default?: Float): Float
+    getBool(section: string, name: string, _default?: boolean): boolean
+    delete(section: string, name: string): boolean
+}
+export interface DB {
+    set(name: string, data: any): boolean
+    get(name: string): any
+    delete(name: string): boolean
+    listKey(): string[]
+    close(): boolean
+}
+export interface file {
+    readonly path: string
+    readonly absolutePath: string
+    readonly size: Integer
+
+    readSync(cnt: number): string | ArrayBuffer
+    readLineSync(): string | undefined
+    readAllSync(): string | ArrayBuffer | undefined
+    writeSync(str: string | ArrayBuffer): boolean
+    writeLineSync(str: string): boolean
+
+    read(cnt: number, callback: (result: string | ArrayBuffer | undefined) => void): boolean
+    readLine(callback: (result: string | undefined) => void): boolean
+    readAll(callback: (result: string | ArrayBuffer | undefined) => void): boolean
+    write(str: string | ArrayBuffer, callback: (result: string | ArrayBuffer | undefined) => void): boolean
+    writeLine(str: string, callback: (result: string | undefined) => void): boolean
+
+    seekTo(pos: number, isRelative: boolean): boolean
+    setSize(size: number): boolean
+    close(): boolean
+    flush(): boolean
+    errorCode(): Integer
+    clear(): boolean
+
+    createDir(dir): boolean
+    mkdir(dir: string): boolean
+    delete(path: string): boolean
+    exists(path: string): boolean
+    copy(from: string, to: string): boolean
+    move(from: string, to: string): boolean
+    rename(from: string, to: string): boolean
+    getFileSize(path: string): Integer
+    checkIsDir(path: string): boolean
+    getFilesList(dir: string): string[]
+}
+export interface WSClient {
+    readonly status: any
+
+    connect(target: string): boolean
+    send(msg: string | ArrayBuffer): boolean
+    listen(event: "onTextReceived", callback: (msg: string) => void): boolean
+    listen(event: "onBinaryReceived", callback: (data: ArrayBuffer) => void): boolean
+    listen(event: "onError", callback: (msg: string) => void): boolean
+    listen(event: "onLostConnection", callback: (code: Integer) => void): boolean
+    close(): boolean
+    shutdown(): boolean
+    errorCode(): Integer
+}
 export function log(...args: any[]): void
 export function colorLog(color: string, ...args: any[]): void
 export function setTimeout(func: () => void, msec: Integer): Integer | undefined
@@ -353,4 +442,93 @@ export interface NBT {
     createTag(type: any, data?: any): NbtValue | NbtList | NbtCompound | undefined
     parseSNBT(snbt: string): NbtCompound | undefined
     parseBinaryNBT(nbt: ArrayBuffer): NbtCompound | undefined
+}
+export interface logger {
+    setConsole(isOpen: boolean, logLevel: number): void
+    setFile(filePath: string, logLevel: number): void
+    setPlayer(player: Player, logLevel: number): void
+    log(...args: any[]): void
+    debug(...args: any[]): void
+    info(...args: any[]): void
+    warn(...args: any[]): void
+    error(...args: any[]): void
+    fatal(...args: any[]): void
+    setTitle(title: string): void
+    setLogLevel(level: LogLevel): void
+}
+export interface lxl {
+    version(): {
+        major: Integer
+        minor: Integer
+        revision: Integer
+        isBeta: boolean
+    }
+    requireVersion(major: Integer, minor?: Integer, revision?: Integer): boolean
+    listPlugins(): string[]
+    export(func: (...args: any[]) => any, name: string): boolean
+    import(name: string): (...args: any[]) => any
+    require(path: string, remotePath?: string): boolean
+    eval(str: string): any
+
+    loadLangPack(path: string): Integer | undefined
+}
+export interface data {
+    openConfig(path: string, format?: "json", _default?: string): JSONConf | undefined
+    openConfig(path: string, format: "ini", _default?: string): INIConf | undefined
+
+    openDB(dir: string): DB | undefined
+
+    name2xuid(name: string): string | undefined
+    xuid2name(xuid: string): string | undefined
+
+    toJson(_var: any, space?: Integer): string | undefined
+    parseJson(json: string): any
+    toMD5(str: string): string
+    toSHA1(str: string): string
+}
+export interface money {
+    set(xuid: string, money: Integer): boolean
+    get(xuid: string): Integer
+    add(xuid: string, money: Integer): boolean
+    reduce(xuid: string, money: Integer): boolean
+    trans(xuid1: string, xuid2: string, money: Integer, note?: string): boolean
+    getHistory(xuid: string, time: Integer): Array<{
+        from: string
+        to: string
+        money: Integer
+        time: string
+        note: string
+    }>
+    clearHistory(time: Integer): boolean
+}
+export interface file {
+    readonly ReadMode
+    readonly WriteMode
+    readonly AppendMode
+    readFrom(path: string): string | undefined
+    writeTo(path: string, text: string): boolean
+    writeLine(path: string, text: string): boolean
+
+    open(path: string, mode: any, isBinary?: boolean): File | undefined
+}
+export interface network {
+    httpGet(url: string, callback: (status: Integer, result: string | -1) => void): boolean
+    httpPost(url: string, data: string, type: string, callback: (status: Integer, result: string | -1) => void): boolean
+    newWebsocket(): WSClient
+}
+export interface system {
+    cmd(cmd: string, callback: (exitcode: Integer, output: string) => void, timeLimit?: Integer): boolean
+    newProcess(process: string, callback: (exitcode: Integer, output: string) => void, timeLimit?: Integer): boolean
+
+    getTimeStr(): string
+    getTimeObj(): {
+        Y: Integer
+        M: Integer
+        D: Integer
+        h: Integer
+        m: Integer
+        s: Integer
+        ms: Integer
+    }
+    randomGuid():string
 }
