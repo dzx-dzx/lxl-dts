@@ -391,137 +391,137 @@ export function setTimeout(code: string, msec: Integer): Integer | undefined
 export function setInterval(code: string, msec: Integer): Integer | undefined
 export function clearInterval(taskid: Integer): boolean | undefined
 
-export interface mc {
-    newIntPos(x: Integer, y: Integer, z: Integer, dimid: DimensionID): IntPos
-    newFloatPos(x: Float, y: Float, z: Float, dimid: DimensionID): FloatPos
+export namespace mc {
+    function newIntPos(x: Integer, y: Integer, z: Integer, dimid: DimensionID): IntPos
+    function newFloatPos(x: Float, y: Float, z: Float, dimid: DimensionID): FloatPos
 
-    runcmd(cmd: string): boolean
-    runcmdEx(cmd: string): { success: boolean, output: string }
-    regPlayerCmd(cmd: string, description: string, callback: (player: Player, args: string[]) => void, level: PermissionID): boolean
-    regConsoleCmd(cmd: string, description: string, callback: (args: string[]) => void): boolean
-    sendCmdOutput(output: string): boolean
+    function runcmd(cmd: string): boolean
+    function runcmdEx(cmd: string): { success: boolean, output: string }
+    function regPlayerCmd(cmd: string, description: string, callback: (player: Player, args: string[]) => void, level: PermissionID): boolean
+    function regConsoleCmd(cmd: string, description: string, callback: (args: string[]) => void): boolean
+    function sendCmdOutput(output: string): boolean
 
-    getPlayer(info: string): Player | undefined
-    getOnlinePlayers(): Player[]
-    broadcast(msg: string, type?: MessageID): boolean
+    function getPlayer(info: string): Player | undefined
+    function getOnlinePlayers(): Player[]
+    function broadcast(msg: string, type?: MessageID): boolean
 
-    getBlock(pos: IntPos): Block
-    getBlock(x: Integer, y: Integer, z: Integer, dimid: DimensionID): Block
-    setBlock(pos: IntPos, block: Block): boolean
-    setblock(x: Integer, y: Integer, z: Integer, dimid: DimensionID, block: Block): Block
-    spawnParticle(pos: IntPos | FloatPos, type: string): boolean
-    spawnParticle(x: Integer, y: Integer, z: Integer, dimid: DimensionID, type: string): boolean
+    function getBlock(pos: IntPos): Block
+    function getBlock(x: Integer, y: Integer, z: Integer, dimid: DimensionID): Block
+    function setBlock(pos: IntPos, block: Block): boolean
+    function setblock(x: Integer, y: Integer, z: Integer, dimid: DimensionID, block: Block): Block
+    function spawnParticle(pos: IntPos | FloatPos, type: string): boolean
+    function spawnParticle(x: Integer, y: Integer, z: Integer, dimid: DimensionID, type: string): boolean
 
-    spawnMob(name: string, pos: IntPos | FloatPos): Entity
-    spawnMob<T extends Integer | Float>(name: string, x: T, y: T, z: T, dimid: DimensionID): Entity | undefined
-    explode(pos: IntPos | FloatPos, source: Entity | undefined, power: Float, range: Float, isDestroy: boolean, isFire: boolean): boolean
-    explode<T extends Integer | Float>(x: T, y: T, z: T, dimid: DimensionID, source: Entity | undefined, power: Float, range: Float, isDestroy: boolean, isFire: boolean): boolean
+    function spawnMob(name: string, pos: IntPos | FloatPos): Entity
+    function spawnMob<T extends Integer | Float>(name: string, x: T, y: T, z: T, dimid: DimensionID): Entity | undefined
+    function explode(pos: IntPos | FloatPos, source: Entity | undefined, power: Float, range: Float, isDestroy: boolean, isFire: boolean): boolean
+    function explode<T extends Integer | Float>(x: T, y: T, z: T, dimid: DimensionID, source: Entity | undefined, power: Float, range: Float, isDestroy: boolean, isFire: boolean): boolean
 
-    newItem(name: string, count: Integer): Item | undefined
-    newItem(nbt: NbtCompound): Item | null
-    spawnItem(item: Item, pos: IntPos | FloatPos): Entity | undefined
-    spawnItem<T extends Integer | Float>(item: Item, x: T, y: T, z: T, dimid: DimensionID): Entity | undefined
+    function newItem(name: string, count: Integer): Item | undefined
+    function newItem(nbt: NbtCompound): Item | null
+    function spawnItem(item: Item, pos: IntPos | FloatPos): Entity | undefined
+    function spawnItem<T extends Integer | Float>(item: Item, x: T, y: T, z: T, dimid: DimensionID): Entity | undefined
 
-    newScoreObjective(name: string, displayName: string): Objective | undefined
-    getScoreObjective(name: string): Objective | undefined
-    getAllScoreObjectives(): Objective[]
-    getDisplayObjective(slot: "sidebar" | "belowname" | "list"): Objective | undefined
+    function newScoreObjective(name: string, displayName: string): Objective | undefined
+    function getScoreObjective(name: string): Objective | undefined
+    function getAllScoreObjectives(): Objective[]
+    function getDisplayObjective(slot: "sidebar" | "belowname" | "list"): Objective | undefined
 
-    removeScoreObjective(name: string): boolean
-    clearDisplayObjective(slot: "sidebar" | "belowname" | "list"): boolean
+    function removeScoreObjective(name: string): boolean
+    function clearDisplayObjective(slot: "sidebar" | "belowname" | "list"): boolean
 
-    getBDSVersion(): string
-    setMotd(motd: string): boolean
+    function getBDSVersion(): string
+    function setMotd(motd: string): boolean
 
-    listen(event: string, callback: (...args: any[]) => boolean | void): boolean
+    function listen(event: string, callback: (...args: any[]) => boolean | void): boolean
 
-    newSimpleForm(): SimpleForm
-    newCustomForm(): CustomForm
+    function newSimpleForm(): SimpleForm
+    function newCustomForm(): CustomForm
 }
-export interface NBT {
-    createTag(type: any, data?: any): NbtValue | NbtList | NbtCompound | undefined
-    parseSNBT(snbt: string): NbtCompound | undefined
-    parseBinaryNBT(nbt: ArrayBuffer): NbtCompound | undefined
+export namespace NBT {
+    function createTag(type: any, data?: any): NbtValue | NbtList | NbtCompound | undefined
+    function parseSNBT(snbt: string): NbtCompound | undefined
+    function parseBinaryNBT(nbt: ArrayBuffer): NbtCompound | undefined
 }
-export interface logger {
-    setConsole(isOpen: boolean, logLevel: number): void
-    setFile(filePath: string, logLevel: number): void
-    setPlayer(player: Player, logLevel: number): void
-    log(...args: any[]): void
-    debug(...args: any[]): void
-    info(...args: any[]): void
-    warn(...args: any[]): void
-    error(...args: any[]): void
-    fatal(...args: any[]): void
-    setTitle(title: string): void
-    setLogLevel(level: LogLevel): void
+export namespace logger {
+    function setConsole(isOpen: boolean, logLevel: number): void
+    function setFile(filePath: string, logLevel: number): void
+    function setPlayer(player: Player, logLevel: number): void
+    function log(...args: any[]): void
+    function debug(...args: any[]): void
+    function info(...args: any[]): void
+    function warn(...args: any[]): void
+    function error(...args: any[]): void
+    function fatal(...args: any[]): void
+    function setTitle(title: string): void
+    function setLogLevel(level: LogLevel): void
 }
-export interface lxl {
-    version(): {
+export namespace lxl {
+    function version(): {
         major: Integer
         minor: Integer
         revision: Integer
         isBeta: boolean
     }
-    requireVersion(major: Integer, minor?: Integer, revision?: Integer): boolean
-    listPlugins(): string[]
-    export(func: (...args: any[]) => any, name: string): boolean
-    import(name: string): (...args: any[]) => any
-    require(path: string, remotePath?: string): boolean
-    eval(str: string): any
+    function requireVersion(major: Integer, minor?: Integer, revision?: Integer): boolean
+    function listPlugins(): string[]
+    // function export(func: (...args: any[]) => any, name: string) => boolean
+    // function import(name: string): (...args: any[]) => any
+    function require(path: string, remotePath?: string): boolean
+    // function eval(str: string): any
 
-    loadLangPack(path: string): Integer | undefined
+    function loadLangPack(path: string): Integer | undefined
 }
-export interface data {
-    openConfig(path: string, format?: "json", _default?: string): JSONConf | undefined
-    openConfig(path: string, format: "ini", _default?: string): INIConf | undefined
+export namespace data {
+    function openConfig(path: string, format?: "json", _default?: string): JSONConf | undefined
+    function openConfig(path: string, format: "ini", _default?: string): INIConf | undefined
 
-    openDB(dir: string): DB | undefined
+    function openDB(dir: string): DB | undefined
 
-    name2xuid(name: string): string | undefined
-    xuid2name(xuid: string): string | undefined
+    function name2xuid(name: string): string | undefined
+    function xuid2name(xuid: string): string | undefined
 
-    toJson(_var: any, space?: Integer): string | undefined
-    parseJson(json: string): any
-    toMD5(str: string): string
-    toSHA1(str: string): string
+    function toJson(_var: any, space?: Integer): string | undefined
+    function parseJson(json: string): any
+    function toMD5(str: string): string
+    function toSHA1(str: string): string
 }
-export interface money {
-    set(xuid: string, money: Integer): boolean
-    get(xuid: string): Integer
-    add(xuid: string, money: Integer): boolean
-    reduce(xuid: string, money: Integer): boolean
-    trans(xuid1: string, xuid2: string, money: Integer, note?: string): boolean
-    getHistory(xuid: string, time: Integer): Array<{
+export namespace money {
+    function set(xuid: string, money: Integer): boolean
+    function get(xuid: string): Integer
+    function add(xuid: string, money: Integer): boolean
+    function reduce(xuid: string, money: Integer): boolean
+    function trans(xuid1: string, xuid2: string, money: Integer, note?: string): boolean
+    function getHistory(xuid: string, time: Integer): Array<{
         from: string
         to: string
         money: Integer
         time: string
         note: string
     }>
-    clearHistory(time: Integer): boolean
+    function clearHistory(time: Integer): boolean
 }
-export interface file {
-    readonly ReadMode
-    readonly WriteMode
-    readonly AppendMode
-    readFrom(path: string): string | undefined
-    writeTo(path: string, text: string): boolean
-    writeLine(path: string, text: string): boolean
+export namespace file {
+    const ReadMode
+    const WriteMode
+    const AppendMode
+    function readFrom(path: string): string | undefined
+    function writeTo(path: string, text: string): boolean
+    function writeLine(path: string, text: string): boolean
 
-    open(path: string, mode: any, isBinary?: boolean): File | undefined
+    function open(path: string, mode: any, isBinary?: boolean): File | undefined
 }
-export interface network {
-    httpGet(url: string, callback: (status: Integer, result: string | -1) => void): boolean
-    httpPost(url: string, data: string, type: string, callback: (status: Integer, result: string | -1) => void): boolean
-    newWebsocket(): WSClient
+export namespace network {
+    function httpGet(url: string, callback: (status: Integer, result: string | -1) => void): boolean
+    function httpPost(url: string, data: string, type: string, callback: (status: Integer, result: string | -1) => void): boolean
+    function newWebsocket(): WSClient
 }
-export interface system {
-    cmd(cmd: string, callback: (exitcode: Integer, output: string) => void, timeLimit?: Integer): boolean
-    newProcess(process: string, callback: (exitcode: Integer, output: string) => void, timeLimit?: Integer): boolean
+export namespace system {
+    function cmd(cmd: string, callback: (exitcode: Integer, output: string) => void, timeLimit?: Integer): boolean
+    function newProcess(process: string, callback: (exitcode: Integer, output: string) => void, timeLimit?: Integer): boolean
 
-    getTimeStr(): string
-    getTimeObj(): {
+    function getTimeStr(): string
+    function getTimeObj(): {
         Y: Integer
         M: Integer
         D: Integer
@@ -530,5 +530,5 @@ export interface system {
         s: Integer
         ms: Integer
     }
-    randomGuid(): string
+    function randomGuid(): string
 }
