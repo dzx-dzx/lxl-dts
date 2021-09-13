@@ -27,7 +27,7 @@ declare enum MessageID {
 declare type PermissionID = 0 | 1 | 2 | 3 | 4
 declare type Integer = number
 declare type Float = number
-export enum Format {
+declare enum Format {
     Black = "§0",
     DarkBlue = "§1",
     DarkGreen = "§2",
@@ -52,7 +52,7 @@ export enum Format {
     Random = "§k",
     Clear = "§r"
 }
-export enum LogLevel {
+declare enum LogLevel {
     Slient,
     Fatal,
     Error,
@@ -60,21 +60,21 @@ export enum LogLevel {
     Info,
     Debug
 }
-export interface IntPos {
+declare interface IntPos {
     x: Integer,
     y: Integer,
     z: Integer,
     dim: string,
     dimid: DimensionID
 }
-export interface FloatPos {
+declare interface FloatPos {
     x: Float,
     y: Float,
     z: Float,
     dim: string,
     dimid: DimensionID
 }
-export interface Player {
+declare interface Player {
     readonly name: string,
     readonly pos: FloatPos,
     readonly blockPos: IntPos,
@@ -148,7 +148,7 @@ export interface Player {
     getExtraData(name: string): any
     delExtraData(name: string): any
 }
-export interface Block {
+declare interface Block {
     readonly name: string
     readonly type: string
     readonly id: Integer
@@ -163,14 +163,14 @@ export interface Block {
     getBlockEntity(): BlockEntity | undefined
     removeBlockEntity(): boolean
 }
-export interface Device {
+declare interface Device {
     readonly ip: string
     readonly avgPing: Integer
     readonly avgPacketLoss: Float
     readonly os: "Android" | "iOS" | "OSX" | "Amazon" | "GearVR" | "Hololens" | "Windows10" | "Win32" | "TVOS" | "PlayStation" | "Nintendo" | "Xbox" | "WindowsPhone" | "Unknown"
     readonly clientId: string
 }
-export interface Entity {
+declare interface Entity {
     readonly name: string
     readonly type: string
     readonly id: Integer
@@ -200,7 +200,7 @@ export interface Entity {
     getNbt(): NbtCompound
     setNbt(nbt: NbtCompound): boolean
 }
-export interface Item {
+declare interface Item {
     readonly name: string
     readonly type: string
     readonly id: Integer
@@ -215,7 +215,7 @@ export interface Item {
     setNbt(nbt: NbtCompound): boolean
     setLore(names: string[]): boolean
 }
-export interface BlockEntity {
+declare interface BlockEntity {
     readonly pos: IntPos
     readonly type: Integer
 
@@ -223,7 +223,7 @@ export interface BlockEntity {
     setNbt(nbt: NbtCompound): boolean
     getBlock(): Block
 }
-export interface Container {
+declare interface Container {
     readonly size: Integer
     readonly type: string
 
@@ -236,7 +236,7 @@ export interface Container {
     removeAllItems(): boolean
     isEmpty(): boolean
 }
-export interface Objective {
+declare interface Objective {
     readonly name: string
     readonly displayName: string
 
@@ -247,14 +247,14 @@ export interface Objective {
     deleteScore(target: Player | string): boolean
     setDisplay(slot: "sidebar" | "belowname" | "list", sortOrder?: 0 | 1): boolean
 }
-export interface nbt {
+declare interface nbt {
     getType(): any
     toString(space?: Integer): string
     toSNBT(): string
     toBinaryNBT(): ArrayBuffer
     destroy(): boolean
 }
-export interface NbtCompound extends nbt {
+declare interface NbtCompound extends nbt {
     getKeys(): string[]
     getTypeOf(key: string): any
     setTag(key: string, tag: NbtCompound | NbtValue | NbtList): boolean
@@ -271,11 +271,11 @@ export interface NbtCompound extends nbt {
     getData(key: string): NbtList | NbtCompound | undefined
     toObject(): any
 }
-export interface NbtValue extends nbt {
+declare interface NbtValue extends nbt {
     set(data: any): boolean
     get(): any
 }
-export interface NbtList extends nbt {
+declare interface NbtList extends nbt {
     getSize(): Integer
     getTypeOf(index: Integer): any
     setTag(index: Integer, tag: NbtCompound | NbtValue | NbtList): boolean
@@ -293,12 +293,12 @@ export interface NbtList extends nbt {
     getData(index: Integer): NbtList | NbtCompound | undefined
     toArray(): any[]
 }
-export interface SimpleForm {
+declare interface SimpleForm {
     setTitle(title: string): SimpleForm
     setContent(content: string): SimpleForm
     addButton(text: string, image?: string): SimpleForm
 }
-export interface CustomForm {
+declare interface CustomForm {
     setTitle(title: string): CustomForm
     addLabel(text: string): CustomForm
     addInput(title: string, placeholder?: string, _default?: string): CustomForm
@@ -307,20 +307,20 @@ export interface CustomForm {
     addSlider(title: string, min: Integer, max: Integer, step?: Integer, _default?: Integer): CustomForm
     addStepSlider(title: string, items: string[], _default: Integer): CustomForm
 }
-export interface Conf {
+declare interface Conf {
     reload(): boolean
     close(): boolean
     getPath(): string
     read(): string
     write(content: string): boolean
 }
-export interface JSONConf extends Conf {
+declare interface JSONConf extends Conf {
     init(name: string, _default: any): any
     set(name: string, data: any): boolean
     get(name: string, _default?: any): any
     delete(name: string): boolean
 }
-export interface INIConf extends Conf {
+declare interface INIConf extends Conf {
     init(section: string, name: string, _default: Integer | Float | string | boolean): any
     set(section: string, name: string, data: Integer | Float | string | boolean): boolean
     getStr(section: string, name: string, _default?: string): string
@@ -329,14 +329,14 @@ export interface INIConf extends Conf {
     getBool(section: string, name: string, _default?: boolean): boolean
     delete(section: string, name: string): boolean
 }
-export interface DB {
+declare interface DB {
     set(name: string, data: any): boolean
     get(name: string): any
     delete(name: string): boolean
     listKey(): string[]
     close(): boolean
 }
-export interface File {
+declare interface File {
     readonly path: string
     readonly absolutePath: string
     readonly size: Integer
@@ -371,7 +371,7 @@ export interface File {
     checkIsDir(path: string): boolean
     getFilesList(dir: string): string[]
 }
-export interface WSClient {
+declare interface WSClient {
     readonly status: any
 
     connect(target: string): boolean
@@ -384,14 +384,14 @@ export interface WSClient {
     shutdown(): boolean
     errorCode(): Integer
 }
-export function log(...args: any[]): void
-export function colorLog(color: string, ...args: any[]): void
-export function setTimeout(func: () => void, msec: Integer): Integer | undefined
-export function setTimeout(code: string, msec: Integer): Integer | undefined
-export function setInterval(code: string, msec: Integer): Integer | undefined
-export function clearInterval(taskid: Integer): boolean | undefined
+declare function log(...args: any[]): void
+declare function colorLog(color: string, ...args: any[]): void
+declare function setTimeout(func: () => void, msec: Integer): Integer | undefined
+declare function setTimeout(code: string, msec: Integer): Integer | undefined
+declare function setInterval(code: string, msec: Integer): Integer | undefined
+declare function clearInterval(taskid: Integer): boolean | undefined
 
-export namespace mc {
+declare namespace mc {
     function newIntPos(x: Integer, y: Integer, z: Integer, dimid: DimensionID): IntPos
     function newFloatPos(x: Float, y: Float, z: Float, dimid: DimensionID): FloatPos
 
@@ -438,12 +438,12 @@ export namespace mc {
     function newSimpleForm(): SimpleForm
     function newCustomForm(): CustomForm
 }
-export namespace NBT {
+declare namespace NBT {
     function createTag(type: any, data?: any): NbtValue | NbtList | NbtCompound | undefined
     function parseSNBT(snbt: string): NbtCompound | undefined
     function parseBinaryNBT(nbt: ArrayBuffer): NbtCompound | undefined
 }
-export namespace logger {
+declare namespace logger {
     function setConsole(isOpen: boolean, logLevel: number): void
     function setFile(filePath: string, logLevel: number): void
     function setPlayer(player: Player, logLevel: number): void
@@ -456,23 +456,24 @@ export namespace logger {
     function setTitle(title: string): void
     function setLogLevel(level: LogLevel): void
 }
-export namespace lxl {
-    function version(): {
+
+
+declare var lxl: {
+    version: () => {
         major: Integer
         minor: Integer
         revision: Integer
         isBeta: boolean
-    }
-    function requireVersion(major: Integer, minor?: Integer, revision?: Integer): boolean
-    function listPlugins(): string[]
-    // function export(func: (...args: any[]) => any, name: string) => boolean
-    // function import(name: string): (...args: any[]) => any
-    function require(path: string, remotePath?: string): boolean
-    // function eval(str: string): any
-
-    function loadLangPack(path: string): Integer | undefined
+    },
+    requireVersion: (major: Integer, minor?: Integer, revision?: Integer) => boolean
+    listPlugins: () => string[],
+    require: (path: string, remotePath?: string) => boolean,
+    loadLangPack: (path: string) => Integer | undefined
+    "export": (func: (...args: any[]) => any, name: string) => boolean,
+    "import": (name: string) => ((...args: any[]) => any),
+    "eval": (str: string) => any
 }
-export namespace data {
+declare namespace data {
     function openConfig(path: string, format?: "json", _default?: string): JSONConf | undefined
     function openConfig(path: string, format: "ini", _default?: string): INIConf | undefined
 
@@ -486,7 +487,7 @@ export namespace data {
     function toMD5(str: string): string
     function toSHA1(str: string): string
 }
-export namespace money {
+declare namespace money {
     function set(xuid: string, money: Integer): boolean
     function get(xuid: string): Integer
     function add(xuid: string, money: Integer): boolean
@@ -501,22 +502,24 @@ export namespace money {
     }>
     function clearHistory(time: Integer): boolean
 }
-export namespace file {
-    const ReadMode
-    const WriteMode
-    const AppendMode
+declare enum file {
+    ReadMode,
+    WriteMode,
+    AppendMode
+}
+declare namespace file {
     function readFrom(path: string): string | undefined
     function writeTo(path: string, text: string): boolean
     function writeLine(path: string, text: string): boolean
 
-    function open(path: string, mode: any, isBinary?: boolean): File | undefined
+    function open(path: string, mode: file, isBinary?: boolean): File | undefined
 }
-export namespace network {
+declare namespace network {
     function httpGet(url: string, callback: (status: Integer, result: string | -1) => void): boolean
     function httpPost(url: string, data: string, type: string, callback: (status: Integer, result: string | -1) => void): boolean
     function newWebsocket(): WSClient
 }
-export namespace system {
+declare namespace system {
     function cmd(cmd: string, callback: (exitcode: Integer, output: string) => void, timeLimit?: Integer): boolean
     function newProcess(process: string, callback: (exitcode: Integer, output: string) => void, timeLimit?: Integer): boolean
 
